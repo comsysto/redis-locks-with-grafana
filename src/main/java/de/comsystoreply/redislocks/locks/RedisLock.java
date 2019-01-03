@@ -79,11 +79,13 @@ public class RedisLock {
                 lockAttemptId.getKey(), lockAttemptId.getValue());
         metricsReporter.collectMetric(
                 lockAttemptId.timestamp,
-                "lockRace",
-                Collections.singletonList(Pair.of("appName", appName)),
+                lockAttemptId.getKey(),
                 Arrays.asList(
-                        Pair.of("lockName", lockAttemptId.getKey()),
-                        Pair.of("raceType", "unknown"),
+                        Pair.of("appName", appName),
+                        Pair.of("eventType", "lockRace"),
+                        Pair.of("raceType", "unknown")
+                ),
+                Arrays.asList(
                         Pair.of("lockDuration", String.valueOf(currentTimeSupplier.get() - lockAttemptId.timestamp)),
                         Pair.of("lockId", lockAttemptId.getValue())
                 )
@@ -95,12 +97,13 @@ public class RedisLock {
                 lockAttemptId.getKey(), lockAttemptId.getValue(), heldLockValue);
         metricsReporter.collectMetric(
                 lockAttemptId.timestamp,
-                "lockRace",
-                Collections.singletonList(Pair.of("appName", appName)),
+                lockAttemptId.getKey(),
                 Arrays.asList(
-                        Pair.of("lockName", lockAttemptId.getKey()),
-                        Pair.of("raceType", "race"),
-                        Pair.of("appName", lockAttemptId.appName),
+                        Pair.of("appName", appName),
+                        Pair.of("eventType", "lockRace"),
+                        Pair.of("raceType", "race")
+                ),
+                Arrays.asList(
                         Pair.of("lockDuration", String.valueOf(currentTimeSupplier.get() - lockAttemptId.timestamp)),
                         Pair.of("lockId", lockAttemptId.getValue())
                 )
@@ -111,11 +114,12 @@ public class RedisLock {
         LOG.info("LOCK '{}', an attempt to obtain with value '{}' SUCCESS", lockAttemptId.getKey(), lockAttemptId.getValue());
         metricsReporter.collectMetric(
                 lockAttemptId.timestamp,
-                "lockSuccess",
-                Collections.singletonList(Pair.of("appName", appName)),
+                lockAttemptId.getKey(),
                 Arrays.asList(
-                        Pair.of("lockName", lockAttemptId.getKey()),
-                        Pair.of("appName", lockAttemptId.appName),
+                        Pair.of("appName", appName),
+                        Pair.of("eventType", "lockSuccess")
+                ),
+                Arrays.asList(
                         Pair.of("lockId", lockAttemptId.getValue())
                 )
         );
@@ -125,11 +129,12 @@ public class RedisLock {
         LOG.info("LOCK '{}', an attempt to obtain with value '{}' FAILED - lock busy", lockAttemptId.getKey(), lockAttemptId.getValue());
         metricsReporter.collectMetric(
                 lockAttemptId.timestamp,
-                "lockBusy",
-                Collections.singletonList(Pair.of("appName", appName)),
+                lockAttemptId.getKey(),
                 Arrays.asList(
-                        Pair.of("lockName", lockAttemptId.getKey()),
-                        Pair.of("appName", lockAttemptId.appName),
+                        Pair.of("appName", appName),
+                        Pair.of("eventType", "lockBusy")
+                ),
+                Arrays.asList(
                         Pair.of("lockId", lockAttemptId.getValue())
                 )
         );
@@ -139,11 +144,12 @@ public class RedisLock {
         LOG.info("LOCK '{}', an attempt to obtain with value '{}'", lockAttemptId.getKey(), lockAttemptId.getValue());
         metricsReporter.collectMetric(
                 lockAttemptId.timestamp,
-                "lockAttempt",
-                Collections.singletonList(Pair.of("appName", appName)),
+                lockAttemptId.getKey(),
                 Arrays.asList(
-                        Pair.of("lockName", lockAttemptId.getKey()),
-                        Pair.of("appName", lockAttemptId.appName),
+                        Pair.of("appName", appName),
+                        Pair.of("eventType", "lockAttempt")
+                ),
+                Arrays.asList(
                         Pair.of("lockId", lockAttemptId.getValue())
                 )
         );
