@@ -14,7 +14,7 @@ services:
       ports:
         - "13000:3000"
       user: "104"
-      links:
+      depends_on:
         - influxdb
       networks:
         - my_network
@@ -50,7 +50,10 @@ services:
           - SPRING_REDIS_PORT=6379
           - APP_SWEETROLL_CONSUME_DURATION=3000
           - APP_EATING_PAUSE_DURATION=2000
-          - APP_CYCLES=10
+          - APP_CYCLES=1000
+          - APPLICATION_INFLUXDB_URL=http://influxdb:8086
+        depends_on:
+          - influxdb
         networks:
           - my_network
     locksapp-gorn:
@@ -63,7 +66,10 @@ services:
            - SPRING_REDIS_PORT=6379
            - APP_SWEETROLL_CONSUME_DURATION=1000
            - APP_EATING_PAUSE_DURATION=1000
-           - APP_CYCLES=10
+           - APP_CYCLES=1000
+           - APPLICATION_INFLUXDB_URL=http://influxdb:8086
+        depends_on:
+           - influxdb
         networks:
           - my_network
     locksapp-milten:
@@ -75,7 +81,10 @@ services:
            - SPRING_REDIS_PORT=6379
            - APP_SWEETROLL_CONSUME_DURATION=4000
            - APP_EATING_PAUSE_DURATION=6000
-           - APP_CYCLES=10
+           - APP_CYCLES=1000
+           - APPLICATION_INFLUXDB_URL=http://influxdb:8086
+        depends_on:
+           - influxdb
         networks:
           - my_network
 

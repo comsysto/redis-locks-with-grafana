@@ -1,12 +1,15 @@
 package de.comsystoreply.redislocks.locks;
 
+import de.comsystoreply.redislocks.MetricsReporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.data.util.Pair;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.StringJoiner;
 import java.util.UUID;
@@ -16,17 +19,20 @@ public class RedisLock {
     private static final Logger LOG = LoggerFactory.getLogger(RedisLock.class);
 
     private final RedisTemplate<String, String> redis;
+    private final MetricsReporter metricsReporter;
     private final Supplier<Long> currentTimeSupplier;
     private final long lockExpiryMillis;
     private final String lockName;
     private final String appName;
 
     public RedisLock(RedisTemplate<String, String> redis,
+                     MetricsReporter metricsReporter,
                      Supplier<Long> currentTimeSupplier,
                      long lockExpiryMillis,
                      String lockName,
                      String appName) {
         this.redis = redis;
+        this.metricsReporter = metricsReporter;
         this.currentTimeSupplier = currentTimeSupplier;
         this.lockExpiryMillis = lockExpiryMillis;
         this.lockName = lockName;
@@ -71,23 +77,76 @@ public class RedisLock {
         //another process could have obtained the lock and finished his process before
         LOG.warn("LOCK '{}', execution for value '{}' was finished after lock expired - possible race condition detected",
                 lockAttemptId.getKey(), lockAttemptId.getValue());
+        metricsReporter.collectMetric(
+                lockAttemptId.timestamp,
+                "lockRace",
+                Collections.singletonList(Pair.of("appName", appName)),
+                Arrays.asList(
+                        Pair.of("lockName", lockAttemptId.getKey()),
+                        Pair.of("raceType", "unknown"),
+                        Pair.of("lockDuration", String.valueOf(currentTimeSupplier.get() - lockAttemptId.timestamp)),
+                        Pair.of("lockId", lockAttemptId.getValue())
+                )
+        );
     }
 
     private void notifyRaceCondition(String heldLockValue, LockAttemptId lockAttemptId) {
         LOG.warn("LOCK '{}', execution for value '{}' was finished after another process obtained the lock with value '{}' - race condition detected",
                 lockAttemptId.getKey(), lockAttemptId.getValue(), heldLockValue);
+        metricsReporter.collectMetric(
+                lockAttemptId.timestamp,
+                "lockRace",
+                Collections.singletonList(Pair.of("appName", appName)),
+                Arrays.asList(
+                        Pair.of("lockName", lockAttemptId.getKey()),
+                        Pair.of("raceType", "race"),
+                        Pair.of("appName", lockAttemptId.appName),
+                        Pair.of("lockDuration", String.valueOf(currentTimeSupplier.get() - lockAttemptId.timestamp)),
+                        Pair.of("lockId", lockAttemptId.getValue())
+                )
+        );
     }
 
     private void notifyLockSuccess(LockAttemptId lockAttemptId) {
         LOG.info("LOCK '{}', an attempt to obtain with value '{}' SUCCESS", lockAttemptId.getKey(), lockAttemptId.getValue());
+        metricsReporter.collectMetric(
+                lockAttemptId.timestamp,
+                "lockSuccess",
+                Collections.singletonList(Pair.of("appName", appName)),
+                Arrays.asList(
+                        Pair.of("lockName", lockAttemptId.getKey()),
+                        Pair.of("appName", lockAttemptId.appName),
+                        Pair.of("lockId", lockAttemptId.getValue())
+                )
+        );
     }
 
     private void notifyLockBusy(LockAttemptId lockAttemptId) {
         LOG.info("LOCK '{}', an attempt to obtain with value '{}' FAILED - lock busy", lockAttemptId.getKey(), lockAttemptId.getValue());
+        metricsReporter.collectMetric(
+                lockAttemptId.timestamp,
+                "lockBusy",
+                Collections.singletonList(Pair.of("appName", appName)),
+                Arrays.asList(
+                        Pair.of("lockName", lockAttemptId.getKey()),
+                        Pair.of("appName", lockAttemptId.appName),
+                        Pair.of("lockId", lockAttemptId.getValue())
+                )
+        );
     }
 
     private void notifyLockAttempt(LockAttemptId lockAttemptId) {
         LOG.info("LOCK '{}', an attempt to obtain with value '{}'", lockAttemptId.getKey(), lockAttemptId.getValue());
+        metricsReporter.collectMetric(
+                lockAttemptId.timestamp,
+                "lockAttempt",
+                Collections.singletonList(Pair.of("appName", appName)),
+                Arrays.asList(
+                        Pair.of("lockName", lockAttemptId.getKey()),
+                        Pair.of("appName", lockAttemptId.appName),
+                        Pair.of("lockId", lockAttemptId.getValue())
+                )
+        );
     }
 
 
