@@ -1,0 +1,68 @@
+version: '3.3'
+
+services:
+
+    redis:
+      image: redis:latest
+      command: ["redis-server", "--appendonly", "yes"]
+      ports:
+        - "16379:6379"
+      networks:
+        - my_network
+    locksapp-diego:
+        build:
+          context: ./
+          dockerfile: Dockerfile
+        image: lockaspp
+        environment:
+#        we need to use here snake case with upper case to translate it to application.properties file
+          - APPLICATION_NAME=Diego
+          - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
+          - SPRING_REDIS_HOST=redis
+          - SPRING_REDIS_PORT=6379
+          - APP_SWEETROLL_CONSUME_DURATION=3000
+          - APP_EATING_PAUSE_DURATION=2000
+          - APP_CYCLES=10
+        networks:
+          - my_network
+    locksapp-gorn:
+        image: lockaspp:latest
+        environment:
+       #        we need to use here snake case with upper case to translate it to application.properties file
+           - APPLICATION_NAME=Gorn
+           - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
+           - SPRING_REDIS_HOST=redis
+           - SPRING_REDIS_PORT=6379
+           - APP_SWEETROLL_CONSUME_DURATION=1000
+           - APP_EATING_PAUSE_DURATION=1000
+           - APP_CYCLES=10
+        networks:
+          - my_network
+    locksapp-milten:
+        image: lockaspp:latest
+        environment:
+           - APPLICATION_NAME=Milten
+           - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
+           - SPRING_REDIS_HOST=redis
+           - SPRING_REDIS_PORT=6379
+           - APP_SWEETROLL_CONSUME_DURATION=4000
+           - APP_EATING_PAUSE_DURATION=6000
+           - APP_CYCLES=10
+        networks:
+          - my_network
+#    influxdb:
+#      image: influxdb:latest
+#      networks:
+#        - my_net_work
+#      env_file:
+#        - influxdb.env
+#      deploy:
+#        endpoint_mode: vip
+##        placement:
+##          constraints: [node.role == worker]
+#      volumes:
+#        # Data persistency
+#        # sudo mkdir -p /srv/docker/influxdb/data
+#        - /srv/docker/influxdb/data:/var/lib/influxdb
+networks:
+  my_network:
