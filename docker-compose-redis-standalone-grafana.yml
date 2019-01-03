@@ -9,13 +9,41 @@ services:
         - "16379:6379"
       networks:
         - my_network
+    grafana:
+      image: grafana/grafana:5.3.2
+      ports:
+        - "13000:3000"
+      user: "104"
+      links:
+        - influxdb
+      networks:
+        - my_network
+    influxdb:
+      image: influxdb:1.7.2
+      ports:
+        - "18086:8086"
+        - "18090:8090"
+      environment:
+        - INFLUXDB_DB=locksdb
+        - INFLUXDB_ADMIN_USER=admin
+        - INFLUXDB_ADMIN_PASSWORD=admin
+        - INFLUXDB_USER=user
+        - INFLUXDB_USER_PASSWORD=user
+        - INFLUXDB_REPORTING_DISABLED=false
+        - INFLUXDB_HTTP_AUTH_ENABLED=false
+      networks:
+        - my_network
+  #      volumes:
+        # Data persistency
+        # sudo mkdir -p /srv/docker/influxdb/data
+  #        - /srv/docker/influxdb/data:/var/lib/influxdb
     locksapp-diego:
         build:
           context: ./
           dockerfile: Dockerfile
         image: lockaspp
         environment:
-        #        we need to use here snake case with upper case to translate it to application.properties file
+#        we need to use here snake case with upper case to translate it to application.properties file
           - APPLICATION_NAME=Diego
           - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
           - SPRING_REDIS_HOST=redis
@@ -41,7 +69,6 @@ services:
     locksapp-milten:
         image: lockaspp:latest
         environment:
-        #        we need to use here snake case with upper case to translate it to application.properties file
            - APPLICATION_NAME=Milten
            - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
            - SPRING_REDIS_HOST=redis
@@ -51,5 +78,6 @@ services:
            - APP_CYCLES=10
         networks:
           - my_network
+
 networks:
   my_network:
