@@ -35,7 +35,7 @@
         "x": 0,
         "y": 0
       },
-      "id": 2,
+      "id": 1,
       "legend": {
         "alignAsTable": true,
         "avg": false,
@@ -188,6 +188,231 @@
         },
         {
           "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "alert": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "frequency": "60s",
+        "handler": 1,
+        "name": "Sweetroll locks posession alert",
+        "noDataState": "ok",
+        "notifications": []
+      },
+      "aliasColors": {
+        "Diego lockAttempt": "#cffaff",
+        "Gorn lockAttempt": "#cffaff",
+        "Milten lockAttempt": "#cffaff"
+      },
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "locks_influxdb",
+      "decimals": null,
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "hideTimeOverride": false,
+      "id": 2,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "max": true,
+        "min": true,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "Diego lock possession excess",
+          "color": "#447ebc"
+        },
+        {
+          "alias": "Gorn lock possession excess",
+          "color": "#e5ac0e"
+        },
+        {
+          "alias": "Milten lock possession excess",
+          "color": "#bf1b00"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_appName lock possession excess",
+          "groupBy": [
+            {
+              "params": [
+                "appName"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "measurement": "sweetroll",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "lockDuration"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "-5000"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "eventType",
+              "operator": "=",
+              "value": "lockRace"
+            }
+          ]
+        },
+        {
+          "alias": "$tag_appName lock possession excess with race",
+          "groupBy": [
+            {
+              "params": [
+                "appName"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "sweetroll",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "lockDuration"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "-5000"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "eventType",
+              "operator": "=",
+              "value": "lockRace"
+            },
+            {
+              "condition": "AND",
+              "key": "raceType",
+              "operator": "=",
+              "value": "race"
+            }
+          ]
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 0
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Execution under sweetroll lock excess",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": false,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "none",
           "label": null,
           "logBase": 1,
           "max": null,
