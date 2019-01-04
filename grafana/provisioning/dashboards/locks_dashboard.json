@@ -237,7 +237,10 @@
       "aliasColors": {
         "Diego lockAttempt": "#cffaff",
         "Gorn lockAttempt": "#cffaff",
-        "Milten lockAttempt": "#cffaff"
+        "Milten lockAttempt": "#cffaff",
+        "Diego  lock possession excess with race": "#bf1b00",
+        "Gorn  lock possession excess with race": "#bf1b00",
+        "Milten  lock possession excess with race": "#bf1b00"
       },
       "bars": true,
       "dashLength": 10,
@@ -249,7 +252,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 0
+        "y": 9
       },
       "hideTimeOverride": false,
       "id": 2,
@@ -275,15 +278,27 @@
       "seriesOverrides": [
         {
           "alias": "Diego lock possession excess",
-          "color": "#447ebc"
+          "color": "#ea6460"
         },
         {
           "alias": "Gorn lock possession excess",
-          "color": "#e5ac0e"
+          "color": "#aea2e0"
         },
         {
           "alias": "Milten lock possession excess",
-          "color": "#bf1b00"
+          "color": "#1f78c1"
+        },
+        {
+          "alias": "Diego  lock possession excess with race",
+          "color": "#890f02"
+        },
+        {
+          "alias": "Gorn  lock possession excess with race",
+          "color": "#584477"
+        },
+        {
+          "alias": "Milten  lock possession excess with race",
+          "color": "#052b51"
         }
       ],
       "spaceLength": 10,
@@ -331,7 +346,7 @@
           ]
         },
         {
-          "alias": "$tag_appName lock possession excess with race",
+          "alias": "$tag_appName  lock possession excess with race",
           "groupBy": [
             {
               "params": [
@@ -378,11 +393,11 @@
       ],
       "thresholds": [
         {
-          "colorMode": "critical",
+          "value": 0,
+          "op": "gt",
           "fill": true,
           "line": true,
-          "op": "gt",
-          "value": 0
+          "colorMode": "critical"
         }
       ],
       "timeFrom": null,
