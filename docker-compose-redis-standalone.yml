@@ -20,8 +20,6 @@ services:
           - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
           - SPRING_REDIS_HOST=redis
           - SPRING_REDIS_PORT=6379
-          - APP_SWEETROLL_CONSUME_DURATION=3000
-          - APP_EATING_PAUSE_DURATION=2000
           - APP_CYCLES=10
         networks:
           - my_network
@@ -33,8 +31,6 @@ services:
            - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
            - SPRING_REDIS_HOST=redis
            - SPRING_REDIS_PORT=6379
-           - APP_SWEETROLL_CONSUME_DURATION=1000
-           - APP_EATING_PAUSE_DURATION=1000
            - APP_CYCLES=10
         networks:
           - my_network
@@ -46,8 +42,6 @@ services:
            - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
            - SPRING_REDIS_HOST=redis
            - SPRING_REDIS_PORT=6379
-           - APP_SWEETROLL_CONSUME_DURATION=4000
-           - APP_EATING_PAUSE_DURATION=6000
            - APP_CYCLES=10
         networks:
           - my_network

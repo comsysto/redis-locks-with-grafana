@@ -86,7 +86,7 @@ public class RedisLock {
                         Pair.of("raceType", "unknown")
                 ),
                 Arrays.asList(
-                        Pair.of("lockDuration", String.valueOf(currentTimeSupplier.get() - lockAttemptId.timestamp)),
+                        Pair.of("lockDuration", currentTimeSupplier.get() - lockAttemptId.timestamp),
                         Pair.of("lockId", lockAttemptId.getValue())
                 )
         );
@@ -104,7 +104,7 @@ public class RedisLock {
                         Pair.of("raceType", "race")
                 ),
                 Arrays.asList(
-                        Pair.of("lockDuration", String.valueOf(currentTimeSupplier.get() - lockAttemptId.timestamp)),
+                        Pair.of("lockDuration", currentTimeSupplier.get() - lockAttemptId.timestamp),
                         Pair.of("lockId", lockAttemptId.getValue())
                 )
         );
