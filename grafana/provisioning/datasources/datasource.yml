@@ -1,0 +1,30 @@
+# config file version
+apiVersion: 1
+
+# list of datasources that should be deleted from the database
+deleteDatasources:
+  - name: locks_influxdb
+    orgId: 1
+
+# list of datasources to insert/update depending
+# whats available in the database
+datasources:
+  # <string, required> name of the datasource. Required
+- name: locks_influxdb
+  # <string, required> datasource type. Required
+  type: influxdb
+  # <string, required> access mode. direct or proxy. Required
+  access: proxy
+  # <string> url
+  url: http://influxdb:8086
+  # <string> database password, if used
+  password: user
+  # <string> database user, if used
+  user: user
+  # <string> database name, if used
+  database: locksdb
+  # <bool> mark as default datasource. Max one per org
+  isDefault:
+  version: 1
+  # <bool> allow users to edit datasources from the UI.
+  editable: true

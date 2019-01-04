@@ -16,6 +16,8 @@ services:
       user: "104"
       depends_on:
         - influxdb
+      volumes:
+        - ./grafana/provisioning/:/etc/grafana/provisioning/
       networks:
         - my_network
     influxdb:

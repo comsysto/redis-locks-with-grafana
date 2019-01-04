@@ -17,11 +17,16 @@ public class MetricsReporter {
 
     public final void collectMetric(long timestamp, String groupValue,
                                     Collection<Pair<String, String>> tags,
-                                    Collection<Pair<String, String>> fields) {
+                                    Collection<Pair<String, Object>> fields) {
         Point.Builder builder = Point.measurement(groupValue)
                 .time(timestamp, TimeUnit.MILLISECONDS);
-        for (Pair<String, String> field : fields) {
-            builder.addField(field.getFirst(), field.getSecond());
+        for (Pair<String, Object> field : fields) {
+            if (field.getSecond() instanceof Number)
+                builder.addField(field.getFirst(), Number.class.cast(field.getSecond()));
+            if (field.getSecond() instanceof String)
+                builder.addField(field.getFirst(), String.class.cast(field.getSecond()));
+            if (field.getSecond() instanceof Boolean)
+                builder.addField(field.getFirst(), Boolean.class.cast(field.getSecond()));
         }
         for (Pair<String, String> tag : tags) {
             builder.tag(tag.getFirst(), tag.getSecond());

@@ -1,0 +1,243 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "aliasColors": {
+        "Diego lockAttempt": "#cffaff",
+        "Gorn lockAttempt": "#cffaff",
+        "Milten lockAttempt": "#cffaff"
+      },
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "locks_influxdb",
+      "decimals": 0,
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "Diego lockAttempt",
+          "bars": false,
+          "hideTooltip": true,
+          "legend": false
+        },
+        {
+          "alias": "Gorn lockAttempt",
+          "bars": false,
+          "hideTooltip": true,
+          "legend": false
+        },
+        {
+          "alias": "Milten lockAttempt",
+          "bars": false,
+          "hideTooltip": true,
+          "legend": false
+        },
+        {
+          "alias": "Diego lockBusy",
+          "color": "#ef843c"
+        },
+        {
+          "alias": "Gorn lockBusy",
+          "color": "#ef843c"
+        },
+        {
+          "alias": "Milten lockBusy",
+          "color": "#ef843c"
+        },
+        {
+          "alias": "Diego lockSuccess",
+          "color": "#508642"
+        },
+        {
+          "alias": "Gorn lockSuccess",
+          "color": "#508642"
+        },
+        {
+          "alias": "Milten lockSuccess",
+          "color": "#508642"
+        },
+        {
+          "alias": "Diego lockRace",
+          "color": "#bf1b00"
+        },
+        {
+          "alias": "Gorn lockRace",
+          "color": "#bf1b00"
+        },
+        {
+          "alias": "Milten lockRace",
+          "color": "#bf1b00"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_appName $tag_eventType",
+          "groupBy": [
+            {
+              "params": [
+                "10s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "appName"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "eventType"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "sweetroll",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "lockId"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Sweetroll locks posession",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": false,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "schemaVersion": 16,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Sweetroll locks posession",
+  "uid": "ieGsrhUik",
+  "version": 1
+}
