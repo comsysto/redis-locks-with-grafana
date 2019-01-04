@@ -48,9 +48,7 @@ services:
           - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
           - SPRING_REDIS_HOST=redis
           - SPRING_REDIS_PORT=6379
-          - APP_SWEETROLL_CONSUME_DURATION=3000
-          - APP_EATING_PAUSE_DURATION=2000
-          - APP_CYCLES=1000
+          - APP_CYCLES=500
           - APPLICATION_INFLUXDB_URL=http://influxdb:8086
         depends_on:
           - influxdb
@@ -64,8 +62,6 @@ services:
            - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
            - SPRING_REDIS_HOST=redis
            - SPRING_REDIS_PORT=6379
-           - APP_SWEETROLL_CONSUME_DURATION=1000
-           - APP_EATING_PAUSE_DURATION=1000
            - APP_CYCLES=1000
            - APPLICATION_INFLUXDB_URL=http://influxdb:8086
         depends_on:
@@ -79,9 +75,7 @@ services:
            - APPLICATION_LOCKS_SWEETROLL_EXPIRATION_MILLIS=5000
            - SPRING_REDIS_HOST=redis
            - SPRING_REDIS_PORT=6379
-           - APP_SWEETROLL_CONSUME_DURATION=4000
-           - APP_EATING_PAUSE_DURATION=6000
-           - APP_CYCLES=1000
+           - APP_CYCLES=1500
            - APPLICATION_INFLUXDB_URL=http://influxdb:8086
         depends_on:
            - influxdb

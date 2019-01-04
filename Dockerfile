@@ -1,7 +1,5 @@
 FROM openjdk:8-jre-slim
 COPY ./target/redis-locks-0.0.1-SNAPSHOT.jar /usr/src/locksapp/
 WORKDIR /usr/src/locksapp
-ENV APP_SWEETROLL_CONSUME_DURATION=-1
-ENV APP_EATING_PAUSE_DURATION=-1
 ENV APP_CYCLES=-1
-ENTRYPOINT exec java -jar redis-locks-0.0.1-SNAPSHOT.jar $APP_SWEETROLL_CONSUME_DURATION $APP_EATING_PAUSE_DURATION $APP_CYCLES
+ENTRYPOINT exec java -jar redis-locks-0.0.1-SNAPSHOT.jar $APP_CYCLES

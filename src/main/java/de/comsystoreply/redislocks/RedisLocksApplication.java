@@ -17,23 +17,18 @@ public class RedisLocksApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(RedisLocksApplication.class, args);
-        if (args.length != 3) {
+        if (args.length != 1) {
             throw new IllegalArgumentException("Got wrong amount of arguments, expected: " +
-                    "'long sweetrollConsumeDuration long eatingPauseDuration long cyclesAmount' " +
+                    "'long cyclesAmount' " +
                     "got:" + Arrays.toString(args)
             );
         }
-        long sweetrollConsumeDuration = Long.valueOf(args[0]);
-        long eatingPauseDuration = Long.valueOf(args[1]);
-        long cyclesAmount = Long.valueOf(args[2]);
-        if (sweetrollConsumeDuration < 0 || eatingPauseDuration < 0 || cyclesAmount < 0) {
-            throw new IllegalArgumentException(String.format("All arguments must be positive, got: %d %d %d",
-                    sweetrollConsumeDuration, eatingPauseDuration, cyclesAmount)
-            );
+        long cyclesAmount = Long.valueOf(args[0]);
+        if (cyclesAmount < 0) {
+            throw new IllegalArgumentException(String.format("All arguments must be positive, got: %d", cyclesAmount));
         }
 
-        LOG.info("Launching an application with arguments {}, {}, {}", sweetrollConsumeDuration, eatingPauseDuration, cyclesAmount);
-        context.getBean(App.class).fightForSweetroll(sweetrollConsumeDuration, eatingPauseDuration, cyclesAmount);
+        context.getBean(App.class).fightForSweetroll(cyclesAmount);
     }
 
 }

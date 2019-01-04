@@ -15,16 +15,17 @@ public class App {
         this.lock = lock;
     }
 
-    public void fightForSweetroll(long sweetrollConsumeDuration, long eatingPauseDuration, long cycles) {
+    public void fightForSweetroll(long cycles) {
         int cycle = 0;
-        //todo check if incremented after comparison
+
         while (cycle++ < cycles) {
 
             boolean lockObtained = lock.withLock(() -> {
                 LOG.info("{} is eating a sweetroll", appName);
 
                 try {
-                    Thread.sleep(sweetrollConsumeDuration);
+                    long eatDuration = (long) (Math.random() * 5000 + 500);
+                    Thread.sleep(eatDuration);
                 } catch (InterruptedException e) {
                     LOG.warn("Thread interrupted");
                 }
@@ -39,7 +40,8 @@ public class App {
             }
 
             try {
-                Thread.sleep(eatingPauseDuration);
+                long waitDuration = (long) (Math.random() * 5000 + 500);
+                Thread.sleep(waitDuration);
             } catch (InterruptedException e) {
                 LOG.warn("Thread interrupted");
             }
