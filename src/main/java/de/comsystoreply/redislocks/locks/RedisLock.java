@@ -78,7 +78,7 @@ public class RedisLock {
         LOG.warn("LOCK '{}', execution for value '{}' was finished after lock expired - possible race condition detected",
                 lockAttemptId.getKey(), lockAttemptId.getValue());
         metricsReporter.collectMetric(
-                lockAttemptId.timestamp,
+                currentTimeSupplier.get(),
                 lockAttemptId.getKey(),
                 Arrays.asList(
                         Pair.of("appName", appName),
@@ -96,7 +96,7 @@ public class RedisLock {
         LOG.warn("LOCK '{}', execution for value '{}' was finished after another process obtained the lock with value '{}' - race condition detected",
                 lockAttemptId.getKey(), lockAttemptId.getValue(), heldLockValue);
         metricsReporter.collectMetric(
-                lockAttemptId.timestamp,
+                currentTimeSupplier.get(),
                 lockAttemptId.getKey(),
                 Arrays.asList(
                         Pair.of("appName", appName),
