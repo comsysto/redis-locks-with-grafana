@@ -30,8 +30,8 @@
       "decimals": 0,
       "fill": 1,
       "gridPos": {
-        "h": 9,
-        "w": 12,
+        "h": 8,
+        "w": 24,
         "x": 0,
         "y": 0
       },
@@ -164,7 +164,7 @@
       "timeShift": null,
       "title": "Sweetroll locks posession",
       "tooltip": {
-        "shared": true,
+        "shared": false,
         "sort": 0,
         "value_type": "individual"
       },
@@ -235,12 +235,13 @@
         "notifications": []
       },
       "aliasColors": {
-        "Diego lockAttempt": "#cffaff",
-        "Gorn lockAttempt": "#cffaff",
-        "Milten lockAttempt": "#cffaff",
         "Diego  lock possession excess with race": "#bf1b00",
+        "Diego lock possession excess": "#629e51",
+        "Diego lockAttempt": "#cffaff",
         "Gorn  lock possession excess with race": "#bf1b00",
-        "Milten  lock possession excess with race": "#bf1b00"
+        "Gorn lockAttempt": "#cffaff",
+        "Milten  lock possession excess with race": "#bf1b00",
+        "Milten lockAttempt": "#cffaff"
       },
       "bars": true,
       "dashLength": 10,
@@ -249,10 +250,10 @@
       "decimals": null,
       "fill": 1,
       "gridPos": {
-        "h": 9,
-        "w": 12,
+        "h": 8,
+        "w": 24,
         "x": 0,
-        "y": 9
+        "y": 8
       },
       "hideTimeOverride": false,
       "id": 2,
@@ -325,15 +326,9 @@
             [
               {
                 "params": [
-                  "lockDuration"
+                  "lockExceedDuration"
                 ],
                 "type": "field"
-              },
-              {
-                "params": [
-                  "-5000"
-                ],
-                "type": "math"
               }
             ]
           ],
@@ -364,15 +359,9 @@
             [
               {
                 "params": [
-                  "lockDuration"
+                  "lockExceedDuration"
                 ],
                 "type": "field"
-              },
-              {
-                "params": [
-                  "-5000"
-                ],
-                "type": "math"
               }
             ]
           ],
@@ -393,11 +382,11 @@
       ],
       "thresholds": [
         {
-          "value": 0,
-          "op": "gt",
+          "colorMode": "critical",
           "fill": true,
           "line": true,
-          "colorMode": "critical"
+          "op": "gt",
+          "value": 0
         }
       ],
       "timeFrom": null,
@@ -448,7 +437,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
