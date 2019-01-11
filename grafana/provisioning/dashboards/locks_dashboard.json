@@ -337,6 +337,12 @@
               "key": "eventType",
               "operator": "=",
               "value": "lockRace"
+            },
+            {
+              "condition": "AND",
+              "key": "raceType",
+              "operator": "=",
+              "value": "unknown"
             }
           ]
         },
