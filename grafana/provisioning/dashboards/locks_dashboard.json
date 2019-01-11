@@ -222,7 +222,7 @@
             },
             "reducer": {
               "params": [],
-              "type": "last"
+              "type": "max"
             },
             "type": "query"
           }
