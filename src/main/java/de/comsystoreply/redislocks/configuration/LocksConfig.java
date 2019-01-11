@@ -2,12 +2,14 @@ package de.comsystoreply.redislocks.configuration;
 
 import de.comsystoreply.redislocks.MetricsReporter;
 import de.comsystoreply.redislocks.locks.RedisLock;
+import de.comsystoreply.redislocks.locks.RedisLockBroken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.function.Supplier;
@@ -36,6 +38,19 @@ public class LocksConfig {
         RedisLock lock = new RedisLock(
                 redisTemplate,
                 metricsReporter,
+                timeSupplier(),
+                sweetrolllockExpirationMillis,
+                "sweetroll",
+                applicationName
+        );
+        return lock;
+    }
+
+    @Bean
+    public RedisLockBroken sweetrollLockBroken(
+            RedisTemplate<String, String> redisTemplate) {
+        RedisLockBroken lock = new RedisLockBroken(
+                redisTemplate,
                 timeSupplier(),
                 sweetrolllockExpirationMillis,
                 "sweetroll",
