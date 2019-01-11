@@ -4,6 +4,7 @@ import de.comsystoreply.redislocks.MetricsReporter;
 import de.comsystoreply.redislocks.locks.RedisLock;
 import de.comsystoreply.redislocks.locks.RedisLockBroken;
 import de.comsystoreply.redislocks.locks.RedisLockWithDeleteCheck;
+import de.comsystoreply.redislocks.locks.RedisLockWithDeleteCheckAndLogging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,6 +65,19 @@ public class LocksConfig {
     public RedisLockWithDeleteCheck sweetrollLock_withDeleteCheck(
             RedisTemplate<String, String> redisTemplate) {
         RedisLockWithDeleteCheck lock = new RedisLockWithDeleteCheck(
+                redisTemplate,
+                timeSupplier(),
+                sweetrolllockExpirationMillis,
+                "sweetroll",
+                applicationName
+        );
+        return lock;
+    }
+
+    @Bean
+    public RedisLockWithDeleteCheckAndLogging sweetrollLock_withDeleteCheckAndLogging(
+            RedisTemplate<String, String> redisTemplate) {
+        RedisLockWithDeleteCheckAndLogging lock = new RedisLockWithDeleteCheckAndLogging(
                 redisTemplate,
                 timeSupplier(),
                 sweetrolllockExpirationMillis,

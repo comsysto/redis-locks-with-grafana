@@ -191,7 +191,7 @@ public class RedisLock {
         );
     }
 
-    private class LockAttemptId {
+    private static class LockAttemptId {
         private final String id;
         private final String appName;
         private final String lockName;

@@ -2,7 +2,6 @@ package de.comsystoreply.redislocks.locks;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.data.redis.core.script.RedisScript;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -75,7 +74,7 @@ public class RedisLockWithDeleteCheck {
     }
 
 
-    private class LockAttemptId {
+    private static class LockAttemptId {
         private final String id;
         private final String appName;
         private final String lockName;
